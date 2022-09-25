@@ -115,6 +115,8 @@ def get_msg():
     pag.hotkey('f12')
     return message
 
+# Removes text inside brackets source code link 
+# https://stackoverflow.com/questions/14596884/remove-text-between-and#:~:text=def-,remove_text_inside_brackets,-(text%2C%20brackets
 def remove_text_inside_brackets(text, brackets="<>"):
     count = [0] * (len(brackets) // 2) # count open/close brackets
     saved_chars = []
@@ -140,32 +142,22 @@ def send_message(msg):
     robo.waitImageToAppear('./cimg/close_chat.png')
     navImage('./cimg/close_chat.png', 1)
 
-# lst_msg=''
-# sleep(5)
-# while True:
-if pag.locateOnScreen('./cimg/greendot.png', confidence=0.8) is not None:
-    navImage('./cimg/greendot.png',1,off_x=-100)
-    sleep(0.3)
-    msg = get_msg()
-    created_by = get_sender()
-    send_message(process_message(msg, created_by))
-#     else:
-#         print('No new messages...!')
-#     sleep(1)
 
+while True:
+    if pag.locateOnScreen('./cimg/greendot.png', confidence=0.8) is not None:
+        navImage('./cimg/greendot.png',1,off_x=-100)
+        sleep(0.3)
+        msg = get_msg()
+        created_by = get_sender()
+        send_message(process_message(msg, created_by))
+    else:
+        print('No new messages...!')
+    sleep(5)
 
-# otlTime = now.strftime("%d/%m/%Y %I:%M %p")
-# otlDict = {'Created by': '', 'Create DateTime': otlTime, 'Customer Name': '', 'Customer': '', 'Quotation': '', 'Need Approval': '', 'Brand Managers': '', 'Financial': '', 'Approved': '', 'Creditlimit': '', 'Branch Manager': '', 'CL Financial': '', 'CL Approved': '', 'Finished Date': ''}
-# otlData = list(otlDict.values())
 
 # cell = otl.find('52114551')
-
-# otl.append_row(otlData, value_input_option='USER_ENTERED')
 # x = otl.get_all_records()
-
 # print(cell)
-
-
 
 # def validate(date_text):
 #     try:
