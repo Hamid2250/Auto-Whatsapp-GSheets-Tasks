@@ -53,6 +53,17 @@ def activeBrowserTab(tabNotActive, tabActive):
     else:
         pag.click(pag.locateCenterOnScreen(tabActive, confidence=0.7))
 
+##### Waiting SAP to finish processing #####
+# x, y = 39, 37
+# red, green, blue = 242, 242, 242
+def waitPixelColor(x, y, red, green, blue):
+    while True:
+        pix = pag.pixel(x, y)
+        if pix == (red, green, blue):
+            break
+        else:
+            sleep(0.1)
+
 ######### WhatsApp Automation ########   
 def navImage(image,clicks,off_x=0,off_y=0):
     position=pag.locateCenterOnScreen(image,confidence=0.8)
@@ -61,6 +72,7 @@ def navImage(image,clicks,off_x=0,off_y=0):
     else:
         pag.moveTo(position)
         pag.moveRel(off_x,off_y)
+        sleep(0.5)
         pag.click(clicks=clicks)
 
 def inspect(image):
@@ -145,14 +157,14 @@ def send_message(msg):
 
 while True:
     if pag.locateOnScreen('./cimg/greendot.png', confidence=0.8) is not None:
-        navImage('./cimg/greendot.png',1,off_x=-100)
+        navImage('./cimg/greendot.png',2,off_x=-100)
         sleep(0.3)
         msg = get_msg()
         created_by = get_sender()
         send_message(process_message(msg, created_by))
-    else:
-        print('No new messages...!')
-    sleep(5)
+#     else:
+#         print('No new messages...!')
+#     sleep(5)
 
 
 # cell = otl.find('52114551')
