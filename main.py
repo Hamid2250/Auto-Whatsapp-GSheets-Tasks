@@ -155,21 +155,21 @@ def send_message(msg):
     navImage('./cimg/close_chat.png', 1)
 
 
-while True:
-    if pag.locateOnScreen('./cimg/greendot.png', confidence=0.8) is not None:
-        navImage('./cimg/greendot.png',2,off_x=-100)
-        sleep(0.3)
-        msg = get_msg()
-        created_by = get_sender()
-        send_message(process_message(msg, created_by))
+# while True:
+#     if pag.locateOnScreen('./cimg/greendot.png', confidence=0.8) is not None:
+#         navImage('./cimg/greendot.png',2,off_x=-100)
+#         sleep(0.3)
+#         msg = get_msg()
+#         created_by = get_sender()
+#         send_message(process_message(msg, created_by))
 #     else:
 #         print('No new messages...!')
 #     sleep(5)
 
-
-# cell = otl.find('52114551')
-# x = otl.get_all_records()
-# print(cell)
+##### Search in google sheets and get row as a dictionary #####
+# cell = otl.find('52117689')
+# x = otl.get_all_records(cell)
+# print(x)
 
 # def validate(date_text):
 #     try:
