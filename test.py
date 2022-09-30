@@ -1,3 +1,4 @@
+from ctypes.wintypes import HWND
 import pygetwindow as gw
 import win32gui, win32ui, win32con, win32api
 import cv2 as cv
@@ -103,23 +104,33 @@ def main():
     # sleep(1)
     # send_keys('^a^p')
     # w_handle = pywinauto.findwindows.find_windows(title="52414023.pdf - Adobe Acrobat Reader DC (64-bit)")[0]
-    # w_handle = gw.getWindowsWithTitle('Adobe Acrobat')
+    # w_handle = gw.getWindowsWithTitle('SAP')
+    # print(w_handle)
     # window=app.window(handle=w_handle)
     # window.wait('ready', timeout=10)
     # window[u'Pri&nter:comboBox'].select(0)
     # window[u'&Properties'].click()
     # sleep(8)
     # print(w_handle)
-    w_handle = pywinauto.findwindows.find_windows(title=u'SAP Logon 750', class_name='#32770')[0]
-    pwa_app = pywinauto.application.Application().connect(title=u'SAP Logon 750')
-    window = pwa_app.window(handle=w_handle)
-    window.set_focus()
-    ctrl = window['ListView']
-    ctrl.select(0)
-    ctrl.click()
-    send_keys("{VK_SPACE}"
-    "{ENTER}"
-    "{ENTER}")
+
+    # w_handle = pywinauto.findwindows.find_windows(title=u'SAP Logon 750', class_name='#32770')[0]
+    # pwa_app = pywinauto.application.Application().connect(title=u'SAP Logon 750')
+    # print(pwa_app)
+    # window = pwa_app.window(handle=w_handle)
+    # print(window)
+    # window.set_focus()
+    # ctrl = window['ListView']
+    # ctrl.select(0)
+    # ctrl.click()
+    # send_keys("{VK_SPACE}"
+    # "{ENTER}"
+    # "{ENTER}")
+
+    app = Application(backend='uia').connect(title_re='.*SAP Logon*.')
+    main = app.window(title_re='.*SAP Logon*.')
+    main.set_focus()
+    # main.print_control_identifiers()
+    main.child_window(title="Khairat Production", control_type="ListItem").double_click_input()
     
 
 if __name__ == '__main__':

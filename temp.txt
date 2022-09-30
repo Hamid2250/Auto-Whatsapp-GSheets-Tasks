@@ -1,0 +1,14 @@
+﻿ Makkah WH Quot      52118100
+ Sold-to             300760               مبيعات نقدية معرض مكة المكرمة
+
+ Status overview                                                               User status            System status
+  |
+  |--   Current hdr status         Not referenced        Nothing rejected      Q000                   REL
+  |--------------------------------------------------------------------------- ---------------------------------------------------------------------------
+  |-----Current item status      w/  User status            System status
+  |-----ItemNo Article
+  |--   000010 كلاس دفتر مجلد ابيض مربعات 60 ورقه         1.000 CAR Not referenced        Nothing rejected      REL  NoMP
+  |--   000020 كلاس دفتر مجلد ابيض مربعات 80 ورقه شد120   1.000 CAR Not referenced        Nothing rejected      REL  NoMP
+  |--   000030 كلاس دفتر مجلد ابيض مربعات 100 ورقه شد96   1.000 CAR Not referenced        Nothing rejected      REL  NoMP
+  |--   000040 كلاس دفتر مجلد ابيض انكليزي 80ورقة شد120   1.000 CAR Not referenced        Nothing rejected      REL  NoMP
+  ---   000050 كلاس دفتر مجلد ابيض انكليزي100ورقه شد 96   1.000 CAR Not referenced        Nothing rejected      REL  NoMP
