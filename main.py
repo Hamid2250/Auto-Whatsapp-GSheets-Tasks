@@ -290,12 +290,41 @@ def updateQuotationStatus():
                 otl.update_cell(getRowCol.row, getRowCol.col-1, customerNum)
                 otl.update_cell(getRowCol.row, getRowCol.col-2, customerName)
 
+def prepExportedQuotes(workbook='export.XLSX', worksheet='Sheet1'):
+    # Define Excel file
+    wbExportQuote = xw.Book(workbook)
+    wsEQ = wbExportQuote.sheets[worksheet]
+    cells = wsEQ.range
+
+    # Delete export quote empty row (2nd row)
+    if cells('E1').value == "Quantity":
+        if cells(2, 5).value == 0:
+            cells('A2:Z2').delete()
     
+    # Delete unnecessary columns
+    deleteList = []
+    for cell in cells('A1').expand('right'):
+        if cell.value not in ['Quantity', 'Reference value', 'Article']:
+            deleteList.append(cell.address)
+    for cell in deleteList[::-1]:
+        cells(cell).expand('down').delete()
+    
+    # Add Net_price
+    if cells('A1').value == None:
+        cells('A1').value = 'Net_price'
+    itemCount = len(cells('D1').expand('down'))
+    for cell in cells(f'A2:A{itemCount}'):
+        cell.value = f'={cells(cell.row, cell.column+2).address}/{cells(cell.row, cell.column+1).address}'
+
+    # Convert Article values to correct type
+    if cells('D1').value == "Article":
+        for cell in cells('D2').expand('down'):
+            cell.value = cell.value
 
 
 
 def main():
-    # sleep(2)
+    sleep(2)
     # sapLogon()
     # setWindowSizePosition()
     # sapLoginCreds()
@@ -325,12 +354,8 @@ def main():
     #         if cell.internal_value != None:
 
 
-    wbxl = xw.Book('export.xlsx')
-    wbxl.sheets['Sheet1'].range('C2').value
-    print(wbxl.sheets['Sheet1'].range('D2').value)
-    
-    
 
+    
 if __name__ == '__main__':
     main()
 
