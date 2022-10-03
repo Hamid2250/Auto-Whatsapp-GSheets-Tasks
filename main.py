@@ -291,36 +291,40 @@ def updateQuotationStatus():
                 otl.update_cell(getRowCol.row, getRowCol.col-2, customerName)
 
 def prepExportedQuotes(workbook='export.XLSX', worksheet='Sheet1'):
-    # Define Excel file
-    wbExportQuote = xw.Book(workbook)
-    wsEQ = wbExportQuote.sheets[worksheet]
-    cells = wsEQ.range
+    with xw.App() as app:
+        # Define Excel file
+        wbExportQuote = xw.Book(workbook)
+        wsEQ = wbExportQuote.sheets[worksheet]
+        cells = wsEQ.range
 
-    # Delete export quote empty row (2nd row)
-    if cells('E1').value == "Quantity":
-        if cells(2, 5).value == 0:
-            cells('A2:Z2').delete()
-    
-    # Delete unnecessary columns
-    deleteList = []
-    for cell in cells('A1').expand('right'):
-        if cell.value not in ['Quantity', 'Reference value', 'Article']:
-            deleteList.append(cell.address)
-    for cell in deleteList[::-1]:
-        cells(cell).expand('down').delete()
-    
-    # Add Net_price
-    if cells('A1').value == None:
-        cells('A1').value = 'Net_price'
-    itemCount = len(cells('D1').expand('down'))
-    for cell in cells(f'A2:A{itemCount}'):
-        cell.value = f'={cells(cell.row, cell.column+2).address}/{cells(cell.row, cell.column+1).address}'
+        # Delete export quote empty row (2nd row)
+        if cells('E1').value == "Quantity":
+            if cells(2, 5).value == 0:
+                cells('A2:Z2').delete()
+        
+        # Delete unnecessary columns
+        deleteList = []
+        for cell in cells('A1').expand('right'):
+            if cell.value not in ['Quantity', 'Reference value', 'Article', 'Net_price']:
+                deleteList.append(cell.address)
+        for cell in deleteList[::-1]:
+            cells(cell).expand('down').delete()
+        
+        # Add Net_price
+        if cells('A1').value == None:
+            cells('A1').value = 'Net_price'
+        itemCount = len(cells('D1').expand('down'))
+        for cell in cells(f'A2:A{itemCount}'):
+            cell.value = f'={cells(cell.row, cell.column+2).address}/{cells(cell.row, cell.column+1).address}'
 
-    # Convert Article values to correct type
-    if cells('D1').value == "Article":
-        for cell in cells('D2').expand('down'):
-            cell.value = cell.value
-
+        # Convert Article values to correct type
+        if cells('D1').value == "Article":
+            for cell in cells('D2').expand('down'):
+                cell.value = cell.value
+        
+        # Save and Close
+        wbExportQuote.save()
+        wbExportQuote.close()
 
 
 def main():
@@ -330,28 +334,8 @@ def main():
     # sapLoginCreds()
     # # sapHomeCode('VA22')
     # updateQuotationStatus()
+    prepExportedQuotes()
     
-    # wb1 = load_workbook('export.xlsx')
-    # ws1 = wb1['Sheet1']
-    
-    # ws1.delete_rows(2) 
-    # ws1.delete_cols(11, 2)
-    # ws1.delete_cols(8, 2)
-    # ws1.delete_cols(6)
-    # ws1.delete_cols(1, 4)
-
-    ##### Add Net price column in export.xlsx #####
-    # for row in ws1.iter_rows(min_row=2, min_col=3):
-    #     for cell in row:
-    #         if cell.value[0] == "1" or "2" or "4" or "9":
-    #             ws1.cell(1, 4).value="Net_price"
-    #             ws1.cell(row=cell.row, column=4).value=f"=B{cell.row}/A{cell.row}"
-
-    # wb.save('export.xlsx')
-
-    # for row in ws1.iter_rows(min_row=2, min_col=3):
-    #     for cell in row:
-    #         if cell.internal_value != None:
 
 
 
