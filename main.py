@@ -4,6 +4,7 @@ import code
 from ctypes.wintypes import HWND
 from dataclasses import dataclass
 from posixpath import splitext
+from re import X
 from turtle import title
 import pywinauto
 from pywinauto import Desktop
@@ -326,16 +327,68 @@ def prepExportedQuotes(workbook='export.XLSX', worksheet='Sheet1'):
         wbExportQuote.save()
         wbExportQuote.close()
 
+def prepItemList(workbook='itemList.XLSX', worksheet='Sheet1'):
+    with xw.App() as app:
+        # Define Excel file
+        wbItemList = xw.Book(workbook)
+        wsIL = wbItemList.sheets[worksheet]
+        cells = wsIL.range
+
+        # Convert Article values to correct type
+        if cells('A1').value == "Article Code":
+            for cell in cells('A2:B2').expand('down'):
+                cell.value = cell.value
+        
+        # Save and Close
+        wbItemList.save()
+        wbItemList.close()
+
+def brandsManager(workbook1='itemList.XLSX', worksheet1='Sheet1', workbook2='export.XLSX', worksheet2='Sheet1'):
+    # Define Excel files
+    wbItemList = xw.Book(workbook1)
+    wsIL = wbItemList.sheets[worksheet1]
+    itemCells = wsIL.range
+
+    wbExportQuote = xw.Book(workbook2)
+    wsEQ = wbExportQuote.sheets[worksheet2]
+    exCells = wsEQ.range
+
+    bMList = []
+
+    # articles = ws.range('C2').expand('down')
+    # articles2 = ws2.range('A1:A10')
+    brands = []
+    subBrands = []
+    # for exCell in exCells('D2').expand('down'):
+    #     for itemCell in itemCells('A2').expand('down'):
+    #         if exCell.value == itemCell.value:
+    #             print(itemCell.row, itemCell.column)
+    #             if exCells(exCell.row, exCell.column+1).value == itemCells(itemCell.row, itemCell.column+1).value:
+    #                 print('price match')
+    #             elif exCells(exCell.row, exCell.column+1).value != itemCells(itemCell.row, itemCell.column+1).value:
+    #                 print('price different')
+    #                 if itemCells(itemCell.row, itemCell.column+2).value not in brands:
+    #                     brands.append(itemCells(itemCell.row, itemCell.column+2).value)
+    #                 if itemCells(itemCell.row, itemCell.column+3).value not in subBrands:
+    #                     subBrands.append(itemCells(itemCell.row, itemCell.column+3).value)
+
+    for exCell in exCells('D2').expand('down'):
+        if exCell.value <= 107750:
+            for itemCell in itemCells(f'A{}')
+
+
 
 def main():
-    sleep(2)
     # sapLogon()
     # setWindowSizePosition()
     # sapLoginCreds()
     # # sapHomeCode('VA22')
     # updateQuotationStatus()
-    prepExportedQuotes()
-    
+    # prepExportedQuotes()
+    # prepItemList()
+    # brandsManager()
+    x = str(123456)
+    print(int(x[2:6]))
 
 
 
