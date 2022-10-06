@@ -374,7 +374,13 @@ def brandsManager(workbook1='itemList.XLSX', worksheet1='Sheet1', workbook2='exp
 
     for exCell in exCells('D2').expand('down'):
         if exCell.value <= 107750:
-            for itemCell in itemCells(f'A{}')
+            row = str(exCell.value)
+            for itemCell in itemCells(f'A{int(row[2:6])-10}:A{int(row[2:6])+10}'):
+                if exCell.value == itemCell.value:
+                    if exCells(exCell.row, exCell.column-3).value == itemCells(itemCell.row, itemCell.column+1).value:
+                        print('price match')
+                    elif exCells(exCell.row, exCell.column-3).value != itemCells(itemCell.row, itemCell.column+1).value:
+                        print('price different')
 
 
 
@@ -386,9 +392,7 @@ def main():
     # updateQuotationStatus()
     # prepExportedQuotes()
     # prepItemList()
-    # brandsManager()
-    x = str(123456)
-    print(int(x[2:6]))
+    brandsManager()
 
 
 
