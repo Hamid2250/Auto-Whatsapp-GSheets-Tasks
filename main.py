@@ -343,22 +343,68 @@ def prepItemList(workbook='itemList.XLSX', worksheet='Sheet1'):
         wbItemList.save()
         wbItemList.close()
 
+
 def brandsManager(workbook1='itemList.XLSX', worksheet1='Sheet1', workbook2='export.XLSX', worksheet2='Sheet1'):
     # Define Excel files
+    ## Workbook 1 ##
     wbItemList = xw.Book(workbook1)
     wsIL = wbItemList.sheets[worksheet1]
     itemCells = wsIL.range
-
+    ## Workbook 2 ##
     wbExportQuote = xw.Book(workbook2)
     wsEQ = wbExportQuote.sheets[worksheet2]
     exCells = wsEQ.range
 
     bMList = []
+    brands = []
+    subBrands = []
+
+    def splitSearch(big, less, sub1=0, sub2=0):
+        if exCell.value >= big and exCell.value < less:
+            for itemCell in itemCells(f'A{int(row[0:6])-(sub1)}:A{int(row[0:6])-(sub2)}'):
+                if exCell.value == itemCell.value:
+                    if exCells(exCell.row, exCell.column-3).value == 0.00 or exCells(exCell.row, exCell.column-3).value != itemCells(itemCell.row, itemCell.column+1).value:
+                        print('price different')
+                        break
+                    elif exCells(exCell.row, exCell.column-3).value == itemCells(itemCell.row, itemCell.column+1).value:
+                        print('price match')
+                        break
+    
+        # Split Search for faster results
+    for exCell in exCells('D2').expand('down'):
+        row = str(exCell.value)
+        print(int(exCell.value))
+        splitSearch(100005, 107757, 100003, 99995)
+        splitSearch(107789, 107870, 100064, 100003)
+        splitSearch(108167, 109039, 100523, 100064)
+        splitSearch(109637, 110196, 101161, 100523)
+        splitSearch(110235, 111241, 101539, 101161)
+        splitSearch(111253, 112680, 101882, 101539)
+        splitSearch(112717, 113111, 101989, 101882)
+        splitSearch(113147, 114206, 102286, 101989)
+        splitSearch(114337, 115230, 102456, 102286)
+        splitSearch(115295, 115643, 102539, 102456)
+        splitSearch(115702, 116339, 102701, 102539)
+        splitSearch(116504, 117999, 102956, 102701)
+        splitSearch(118349, 119312, 103332, 102956)
+        splitSearch(119409, 120119, 103888, 103332)
+        splitSearch(121153, 121338, 105033, 103888)
+        splitSearch(122041, 122321, 105803, 105033)
+        splitSearch(122430, 122589, 105929, 105803)
+        splitSearch(122914, 125422, 106288, 105929)
+        splitSearch(125456, 127700, 106419, 106288)
+        splitSearch(125824, 133577, 106582, 106419)
+        splitSearch(133656, 134142, 106733, 106582)
+        splitSearch(134167, 137908, 106866, 106733)
+        splitSearch(137925, 140452, 107071, 106866)
+        splitSearch(140632, 141111, 107267, 107071)
+        splitSearch(141150, 160000, 107389, 107267)
+        splitSearch(200000, 210000, 165693, 160000)
+        splitSearch(400000, 410000, 365472, 360000)
 
     # articles = ws.range('C2').expand('down')
     # articles2 = ws2.range('A1:A10')
-    brands = []
-    subBrands = []
+    
     # for exCell in exCells('D2').expand('down'):
     #     for itemCell in itemCells('A2').expand('down'):
     #         if exCell.value == itemCell.value:
@@ -372,15 +418,7 @@ def brandsManager(workbook1='itemList.XLSX', worksheet1='Sheet1', workbook2='exp
     #                 if itemCells(itemCell.row, itemCell.column+3).value not in subBrands:
     #                     subBrands.append(itemCells(itemCell.row, itemCell.column+3).value)
 
-    for exCell in exCells('D2').expand('down'):
-        if exCell.value <= 107750:
-            row = str(exCell.value)
-            for itemCell in itemCells(f'A{int(row[2:6])-10}:A{int(row[2:6])+10}'):
-                if exCell.value == itemCell.value:
-                    if exCells(exCell.row, exCell.column-3).value == itemCells(itemCell.row, itemCell.column+1).value:
-                        print('price match')
-                    elif exCells(exCell.row, exCell.column-3).value != itemCells(itemCell.row, itemCell.column+1).value:
-                        print('price different')
+
 
 
 
