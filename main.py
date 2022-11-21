@@ -357,23 +357,24 @@ def brandsManager(workbook1='itemList.XLSX', worksheet1='Sheet1', workbook2='exp
 
     bMList = []
     brands = []
-    subBrands = []
 
     def splitSearch(big, less, sub1=0, sub2=0):
         if exCell.value >= big and exCell.value < less:
             for itemCell in itemCells(f'A{int(row[0:6])-(sub1)}:A{int(row[0:6])-(sub2)}'):
                 if exCell.value == itemCell.value:
                     if exCells(exCell.row, exCell.column-3).value == 0.00 or exCells(exCell.row, exCell.column-3).value != itemCells(itemCell.row, itemCell.column+1).value:
-                        print('price different')
+                        # print('price different')
+                        if itemCells(itemCell.row, itemCell.column+2).value not in brands:
+                            brands.append(itemCells(itemCell.row, itemCell.column+2).value)
+                            print(brands)
                         break
                     elif exCells(exCell.row, exCell.column-3).value == itemCells(itemCell.row, itemCell.column+1).value:
-                        print('price match')
+                        # print('price match')
                         break
     
-        # Split Search for faster results
-    for exCell in exCells('D2').expand('down'):
-        row = str(exCell.value)
-        print(int(exCell.value))
+    # Split Search for faster results
+    def splitted():
+        splitSearch(100000, 100005, 99998, 99997)
         splitSearch(100005, 107757, 100003, 99995)
         splitSearch(107789, 107870, 100064, 100003)
         splitSearch(108167, 109039, 100523, 100064)
@@ -402,22 +403,47 @@ def brandsManager(workbook1='itemList.XLSX', worksheet1='Sheet1', workbook2='exp
         splitSearch(200000, 210000, 165693, 160000)
         splitSearch(400000, 410000, 365472, 360000)
 
-    # articles = ws.range('C2').expand('down')
-    # articles2 = ws2.range('A1:A10')
-    
-    # for exCell in exCells('D2').expand('down'):
-    #     for itemCell in itemCells('A2').expand('down'):
-    #         if exCell.value == itemCell.value:
-    #             print(itemCell.row, itemCell.column)
-    #             if exCells(exCell.row, exCell.column+1).value == itemCells(itemCell.row, itemCell.column+1).value:
-    #                 print('price match')
-    #             elif exCells(exCell.row, exCell.column+1).value != itemCells(itemCell.row, itemCell.column+1).value:
-    #                 print('price different')
-    #                 if itemCells(itemCell.row, itemCell.column+2).value not in brands:
-    #                     brands.append(itemCells(itemCell.row, itemCell.column+2).value)
-    #                 if itemCells(itemCell.row, itemCell.column+3).value not in subBrands:
-    #                     subBrands.append(itemCells(itemCell.row, itemCell.column+3).value)
+    getOrders = otl.get_all_records()
+    for i in getOrders:
+        getRowCol = otl.find(str(i['Quotation']))
+        if i['Need Approval'] == 'YES':
+            for exCell in exCells('D2').expand('down'):
+                row = str(exCell.value)
+                # print(int(exCell.value))
+                splitted()
 
+            for brand in brands:
+                if brand in ['ALRAQIA-IMPORT', 'CLASS', 'COPY_PAPER', 'DELI', 'FABRIANO', 'GS', 'KUM', 'NEWELL']:
+                    if 'm.alaskary@khairat.com' not in bMList:
+                        bMList.append('m.alaskary@khairat.com')
+
+                if brand in ['BAGS', 'BIC', 'CHARACTER-STATIONERY']:
+                    if 'a.ramadan@khairat.com' not in bMList:
+                        bMList.append('a.ramadan@khairat.com')
+                
+                if brand in ['STABILO', 'ZEBRA']:
+                    if 'o.moubayed@khairat.com' not in bMList:
+                        bMList.append('o.moubayed@khairat.com')
+                
+                if brand in ['TOYS']:
+                    if 'h.rashwan@khairat.com' not in bMList:
+                        bMList.append('h.rashwan@khairat.com')
+                
+                if brand in ['SHAVER&HOME_PRODUCTS']:
+                    if 'ayman@khairat.com' not in bMList:
+                        bMList.append('ayman@khairat.com')
+            
+            bMList = ", ".join(str(e) for e in bMList)
+            otl.update_cell(getRowCol.row, getRowCol.col+2, bMList)
+
+def sendApporve():
+    None
+
+def toOrder():
+    None
+
+def toDelivery():
+    None
 
 
 
@@ -430,7 +456,11 @@ def main():
     # updateQuotationStatus()
     # prepExportedQuotes()
     # prepItemList()
-    brandsManager()
+    # brandsManager()
+
+    # sendApporve() # Need outlook
+    toOrder()
+    # toDelivery()
 
 
 
